@@ -15,6 +15,7 @@ namespace XamForms.Controls
 		StackLayout MainView, ContentView;
         public static double GridSpace = 0;
 		public event EventHandler<EventArgs> OnStartRenderCalendar, OnEndRenderCalendar;
+        public event EventHandler<EventArgs> CalendarChanged;
 
         public Calendar()
 		{
@@ -130,7 +131,17 @@ namespace XamForms.Controls
 			set { SetValue(StartDateProperty, value); }
 		}
 
-		#endregion
+        #endregion
+
+        //public static readonly BindableProperty DateRangeStartProperty =BindableProperty.Create(nameof(DateRangeStart), typeof(DateTime), null);
+        public DateTime DateRangeStart {
+            get { return buttons.First().Date.Value; }
+        }
+
+        //public static readonly BindableProperty DateRangeEndProperty = BindableProperty.Create(nameof(DateRangeEnd), typeof(DateTime), null);
+        public DateTime DateRangeEnd {
+            get { return buttons.Last().Date.Value; }
+        }
 
 		#region StartDay
 
@@ -590,6 +601,10 @@ namespace XamForms.Controls
 				}
 				Content = MainView;
 				OnEndRenderCalendar?.Invoke(this, EventArgs.Empty);
+                CalendarChanged?.Invoke(this, new CalendarChangedEventArgs {
+                    Start = buttons.First().Date.Value,
+                    End = buttons.Last().Date.Value,
+                });
 			});
         }
 

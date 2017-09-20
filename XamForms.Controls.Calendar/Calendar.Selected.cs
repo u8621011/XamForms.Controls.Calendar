@@ -246,6 +246,13 @@ namespace XamForms.Controls
 			});
 		}
 
+        
+        public void ClearButtonSelection() {
+            buttons.FindAll(b => b.IsSelected).ForEach(b => ResetButton(b));
+            SelectedDates.Clear();
+            SelectedDate = null;
+        }
+
 		protected bool ChangeSelectedDate(DateTime? date, bool clicked = true)
 		{
 			if (!date.HasValue) return false;
